@@ -1,6 +1,4 @@
-const API_BASE_URL = process.env.NODE_ENV === 'development' 
-  ? '/api/proxy' // для локальной разработки
-  : '/api' // для продакшена на Vercel - будем использовать API routes
+const API_BASE_URL = 'https://university-schedule-bot.vercel.app'
 
 class ApiClient {
   private baseURL: string
@@ -28,7 +26,6 @@ class ApiClient {
         headers,
       })
 
-      // Для моковых токенов не проверяем 401
       if (token && token.includes('mock')) {
         // Пропускаем проверку для моковых токенов
       } else if (response.status === 401) {

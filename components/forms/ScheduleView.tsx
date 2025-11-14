@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSchedule } from '@/lib/store/slices/scheduleSlice'
+import { logout } from '@/lib/store/slices/authSlice'
 import { RootState, AppDispatch } from '@/lib/store/store'
 import { Button, Flex, Panel, Spinner } from '@maxhub/max-ui'
 
@@ -20,6 +21,11 @@ export default function ScheduleView() {
     }
   }, [dispatch, user, currentWeekType])
 
+  const handleLogout = () => {
+    dispatch(logout())
+    window.location.href = '/'
+  }
+
   if (loading) {
     return (
       <Flex justify="center" style={{ padding: '20px' }}>
@@ -30,7 +36,49 @@ export default function ScheduleView() {
 
   return (
     <div style={{ padding: '16px' }}>
+      {/* Кнопка выхода в правом верхнем углу */}
+      <Flex justify="end" style={{ marginBottom: '16px' }}>
+        <Button
+          type="button"
+          onClick={handleLogout}
+          style={{
+            background: '#ff4d4f',
+            color: 'white',
+            border: 'none',
+            padding: '8px 16px',
+            borderRadius: '6px',
+            cursor: 'pointer'
+          }}
+        >
+          Выйти
+        </Button>
+      </Flex>
+
+      {/* Отладочная информация */}
+      <div style={{ 
+        background: '#fff3cd', 
+        padding: '10px', 
+        marginBottom: '16px',
+        border: '1px solid #ffeaa7',
+        borderRadius: '4px'
+      }}>
+        <strong>Отладка:</strong> user = {user ? JSON.stringify(user) : 'null'}
+      </div>
+
       <Flex direction="column" gap="large">
+        {/* Информация о пользователе */}
+        {user && (
+          <Panel style={{ padding: '16px', background: '#f8f9fa' }}>
+            <h4 style={{ margin: '0 0 8px 0' }}>Профиль</h4>
+            <p style={{ margin: '4px 0', fontSize: '14px' }}>
+              <strong>Имя:</strong> {user.fullName}
+            </p>
+            <p style={{ margin: '4px 0', fontSize: '14px' }}>
+              <strong>Роль:</strong> {user.role}
+            </p>
+          </Panel>
+        )}
+
         {/* Переключатель недель */}
         <Flex gap="small" justify="center">
           <Button

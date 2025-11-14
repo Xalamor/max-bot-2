@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSchedule } from '@/lib/store/slices/scheduleSlice'
+import { logout } from '@/lib/store/slices/authSlice' // ДОБАВЬТЕ ЭТОТ ИМПОРТ
 import { RootState, AppDispatch } from '@/lib/store/store'
 
 const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
@@ -12,6 +13,12 @@ export default function ScheduleView() {
   const { schedule, loading, weekType, error } = useSelector((state: RootState) => state.schedule)
   const { user } = useSelector((state: RootState) => state.auth)
   const [currentWeekType, setCurrentWeekType] = useState<'current' | 'even' | 'odd'>('current')
+
+  // ДОБАВЬТЕ ФУНКЦИЮ ВЫХОДА
+  const handleLogout = () => {
+    dispatch(logout())
+    window.location.href = '/'
+  }
 
   useEffect(() => {
     if (user?.role === 'student') {
@@ -79,6 +86,24 @@ export default function ScheduleView() {
 
   return (
     <div style={{ padding: '16px', maxWidth: '800px', margin: '0 auto' }}>
+      {/* ДОБАВЬТЕ КНОПКУ ВЫХОДА ЗДЕСЬ */}
+      <div style={{ textAlign: 'right', marginBottom: '16px' }}>
+        <button
+          onClick={handleLogout}
+          style={{
+            padding: '8px 16px',
+            background: '#ff4d4f',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '14px'
+          }}
+        >
+          Выйти из аккаунта
+        </button>
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {/* Заголовок и информация о пользователе */}
         <div style={{ 
@@ -99,6 +124,7 @@ export default function ScheduleView() {
           )}
         </div>
 
+        {/* Остальной код без изменений */}
         {/* Переключатель недель */}
         <div style={{ 
           padding: '16px', 

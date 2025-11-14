@@ -34,7 +34,9 @@ export default function ScheduleView() {
         justifyContent: 'center', 
         alignItems: 'center',
         padding: '20px',
-        height: '200px'
+        height: '200px',
+        color: 'white',
+        fontSize: '20px'
       }}>
         <div>Загрузка расписания...</div>
       </div>

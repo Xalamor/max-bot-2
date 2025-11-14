@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: { params: Promise<{ path: string[] }> }
 ) {
-  const { path } = params
-  const url = `https://university-schedule-bot.vercel.app/api/${path.join('/')}`
+  const params = await context.params
+  const url = `https://university-schedule-bot.vercel.app/api/${params.path.join('/')}`
   
   try {
     const body = await request.json()
@@ -27,10 +27,10 @@ export async function POST(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: { params: Promise<{ path: string[] }> }
 ) {
-  const { path } = params
-  const url = `https://university-schedule-bot.vercel.app/api/${path.join('/')}`
+  const params = await context.params
+  const url = `https://university-schedule-bot.vercel.app/api/${params.path.join('/')}`
   
   try {
     const response = await fetch(url)
